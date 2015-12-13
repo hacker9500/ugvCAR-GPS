@@ -1,0 +1,46 @@
+<style>
+#container {
+    margin: 0px auto;
+    width: 500px;
+    height: 375px;
+    border: 10px #333 solid;
+}
+#videoElement {
+    width: 500px;
+    height: 375px;
+    background-color: #666;
+}
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<div id="container" class="row">
+    <!--<video autoplay="true" id="videoElement" src="mediastream:http://www.kirupa.com/c8837036-88a0-49cf-b8c4-f6c030698009">
+    </video>-->
+</div>
+<script>
+var i=0;
+    function imgsr(){
+            $("#container").html("<img src=\"../static/images/photo"+i+".bmp\"></img>");
+            i++;
+    }
+    $(document).ready(function(evt){
+        setInterval(function(){imgsr();},2000);
+        //$.get("192.168.55.59:8700/",function(data,status){alert(data);});
+    });
+</script>
+<!--<script>
+    var video = document.querySelector("#videoElement");
+
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+if (navigator.getUserMedia) {
+    navigator.getUserMedia({video: true}, handleVideo, videoError);
+}
+
+function handleVideo(stream) {
+    video.src = window.URL.createObjectURL(stream);
+}
+
+function videoError(e) {
+    // do something
+}
+</script>-->

@@ -1,0 +1,55 @@
+body{
+    background-color: ;
+    margin:0;
+}
+
+div{
+    margin:auto;
+}
+
+.up1{
+    margin:0;
+    height:4%;
+}
+
+.t1{
+    margin:auto;
+    height:100px;
+}
+
+.topbar{
+    height:100%;
+    background-color: #0F0F0F;
+    border-radius: 30px;
+    margin:auto;
+    text-align: center;
+}
+
+.title{
+    font-weight: 10px;
+    font-size: 60px;
+    color: white;
+}
+
+.cnt{
+    margin:0;
+    margin-top: 1px;
+    height:60%;
+}
+
+.content{
+    margin:0;
+    height:100%;
+}
+
+.mainco{
+    margin:0;
+    height:100%;
+    background-image: url("../images/loginback.png");
+}
+
+.bottom{
+    margin:0;
+    margin-top:1px;
+    height:200px;
+}

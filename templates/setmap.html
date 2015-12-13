@@ -1,0 +1,137 @@
+{% extends layout.html %}
+
+{% block content %}
+<div id="huha">
+<script
+src="http://maps.googleapis.com/maps/api/js">
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script>
+var p1=new google.maps.LatLng(28.54782476,77.27337286);
+var p2=new google.maps.LatLng(28.5483431,77.27432236);
+var p3=new google.maps.LatLng(28.54828891,77.2743921);
+var p4=new google.maps.LatLng(28.54741008,77.2740756);
+var p5=new google.maps.LatLng(28.54723338,77.27395222);
+var p6=new google.maps.LatLng(28.54639224,77.27359012);
+var p7=new google.maps.LatLng(28.54659251,77.2730644);
+var p8=new google.maps.LatLng(28.54671032,77.27301344);
+var p9=new google.maps.LatLng(28.54782476,77.27337286);
+var pt1=new google.maps.LatLng(28.54665377,77.27303758);
+var pt2=new google.maps.LatLng(28.54660193,77.27304295);
+var pt3=new google.maps.LatLng(28.5463569,77.27296248);
+var pt4=new google.maps.LatLng(28.54635218,77.27290615);
+var pt5=new google.maps.LatLng(28.54527778,77.27287665);
+var pt6=new google.maps.LatLng(28.54489137,77.27225706);
+
+var point=[28.54489137,77.27225706];
+
+function HomeControl(controlDiv, map) {
+  controlDiv.style.padding = '5px';
+  var controlUI = document.createElement('div');
+  controlUI.style.backgroundColor = 'yellow';
+  controlUI.style.border='1px solid';
+  controlUI.style.cursor = 'pointer';
+  controlUI.style.textAlign = 'center';
+  controlUI.title = 'Set map to IIITD';
+  controlDiv.appendChild(controlUI);
+  var controlText = document.createElement('div');
+  controlText.style.fontFamily='Arial,sans-serif';
+  controlText.style.fontSize='12px';
+  controlText.style.paddingLeft = '4px';
+  controlText.style.paddingRight = '4px';
+  controlText.innerHTML = '<b>Home<b>'
+  controlUI.appendChild(controlText);
+
+  // Setup click-event listener: simply set the map to London
+  google.maps.event.addDomListener(controlUI, 'click', function() {
+    map.setCenter(new google.maps.LatLng(28.54604824,77.27326691)),
+    map.setZoom(14)
+  });
+}
+
+function initialize()
+{
+var mapProp = {
+  center:new google.maps.LatLng(28.54604824,77.27326691),
+  zoom:14,
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+var myTrip=[p1,p2,p3,p4,p5,p6,p7,p8,p9,p1];
+var myTript=[pt1,pt2,pt3,pt4,pt5,pt6];
+
+var flightPathp=new google.maps.Polygon({
+  path:myTrip,
+  strokeColor:"#0000FF",
+  strokeOpacity:0.8,
+  strokeWeight:2,
+  fillColor:"#0000FF",
+  fillOpacity:0.4
+  });
+var flightPathpt=new google.maps.Polyline({
+  path:myTript,
+  strokeColor:"#0000FF",
+  strokeOpacity:0.8,
+  strokeWeight:2
+  });
+
+  var myMarker = new google.maps.Marker({
+    position: new google.maps.LatLng(28.54604824,77.27326691),
+    draggable: true
+});
+
+  google.maps.event.addListener(myMarker, 'dragend', function(evt){
+    //document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat() + ' Current Lng: ' + evt.latLng.lng()+ '</p>';
+    point[0]=evt.latLng.lat();
+    point[1]=evt.latLng.lng();
+});
+
+google.maps.event.addListener(myMarker, 'dragstart', function(evt){
+    document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
+});
+
+google.maps.event.addListener(myMarker,'click',function() {
+  map.setZoom(14);
+  map.setCenter(marker.getPosition());
+  });
+
+map.setCenter(myMarker.position);
+myMarker.setMap(map);
+
+flightPathp.setMap(map);
+flightPathpt.setMap(map);
+
+var homeControlDiv = document.createElement('div');
+  var homeControl = new HomeControl(homeControlDiv, map);
+//  homeControlDiv.index = 1;
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+$(document).ready(function(){
+  $("#okbtn").click(function(event){
+    $.post("http://192.168.55.59:8500/rpi",{he: JSON.stringify({0:point[0],1:point[1]})},
+      function(data,status){
+        //alert(data);
+        $("#huha").html(data);
+      }
+      );
+  });
+});
+
+</script>
+<div class="row" style="height:10%"></div>
+<div class="row">
+<div id="googleMap" class="col-lg-8 col-lg-offset-2" style="height:80%"></div>
+</div>
+<script type="text/javascript">
+
+</script>
+<div class="row" id="okbtn" style="margin-top: 4px;">
+<p class="col-lg-5 col-lg-offset-2"><a class="btn btn-default" role="button">Submit!!!</a></p>
+</div>
+</div>
+{% end %}
